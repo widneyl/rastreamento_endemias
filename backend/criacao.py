@@ -1,18 +1,10 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date
+from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import declarative_base, sessionmaker, Relationship
-from dotenv import load_dotenv
-import os
+from .database import engine
 
 
-load_dotenv()
-db_url = os.getenv("DB_URL")
-if not db_url:
-    raise ValueError("A variável DB_URL não está definida no arquivo .env")
-
-
-engine = create_engine(db_url)
 Base = declarative_base()
-_Sessao = sessionmaker(engine) # Abre uma sessão com o banco de dados que será fechada posteriormente
+# _Sessao = sessionmaker(engine) # Abre uma sessão com o banco de dados que será fechada posteriormente
 
 
 # As entidades são representadas por classes, no caso temos a entidade tutor representada pela classe Tutor
@@ -61,21 +53,5 @@ class Doenca(Base):
 
 
 Base.metadata.create_all(engine) # Cria o banco de dados, se ja existir ignora
-
-
-# Criando um novo registro no banco de dados:
-# with _Sessao() as sessao: 
-#     paciente = Pacientes(
-#     nome='Teste',
-#     cpf='123',
-#     telefone='(85) 91234-56',
-#     cep=6390100,
-#     rua='Av. Dom Manuel',
-#     numero=120,
-#     bairro='Centro'
-#     )
-
-#     sessao.add(paciente)
-#     sessao.commit()
 
     
