@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import declarative_base, sessionmaker, Relationship
-from .database import engine
+from database import engine
 
 
 Base = declarative_base()
@@ -22,11 +22,12 @@ class Pacientes(Base):
 
 class Casos(Base): 
     __tablename__ = 'caso'
-    
     id_caso = Column(Integer, primary_key=True) # Definição do id
+    cpf_paciente = Column(String(15), ForeignKey('paciente.cpf'))
     data_diagnostico = Column(Date) # Definição do atributo data_diagnostico
     status = Column(String(6)) # Definição do atributo status
-    sintomas = Column(String(6)) # Definição do atributo sintomas
+    doenca = Column(String(6)) # Definição do atributo doenca
+    sintomas = Column(String(100))
 
 
 class Agente_Saude(Base): 
