@@ -14,9 +14,9 @@ class Pacientes(Base):
     cpf = Column(String(15), unique=True, primary_key=True) # Definição do atributo cpf como chave primaria
     nome = Column(String(50)) # Definição do atributo nome
     telefone = Column(String(20), unique=True) # Definição do atributo telefone
-    cep = Column(Integer) # Definição do atributo cep
+    cep = Column(String(50)) # Definição do atributo cep
     rua = Column(String(40)) # Definição do atributo rua
-    numero = Column(Integer) # Definição do atributo numero
+    numero = Column(String(10)) # Definição do atributo numero
     bairro = Column(String(50)) # Definição do atributo bairro
 
 
@@ -28,6 +28,7 @@ class Casos(Base):
     status = Column(String(6)) # Definição do atributo status
     doenca = Column(String(6)) # Definição do atributo doenca
     sintomas = Column(String(100))
+    id_agente = Column(Integer)
 
 
 class Agente_Saude(Base): 
@@ -42,9 +43,10 @@ class Area_Risco(Base):
     __tablename__ = 'area_risco'
     
     id_area = Column(Integer, primary_key=True) # Definição do id
-    localizacao = Column(String(40)) # Definição do atributo nome
+    localizacao = Column(Integer) # Definição do atributo nome
+    numero_de_casos = Column(Integer)
     nivel_risco = Column(String(10)) # Definição do atributo status
-
+    id_agente = Column(Integer, ForeignKey('agente.id_agente'))
 
 class Doenca(Base): 
     __tablename__ = 'doenca'
