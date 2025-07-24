@@ -87,7 +87,7 @@ def cadastar_paciente(event):
     mensagem.object = "Paciente cadastrado com sucesso!"
     mensagem.visible = True
     limpar_foms()
-    
+
 
 def atualizar_no_banco(event):
     dados = {
@@ -199,7 +199,7 @@ def listar_pacientes(event):
     
 pacientes = insercao.listar_pacientes()
 df = pd.DataFrame(pacientes)
-tabela = pn.widgets.DataFrame(df, width=1100, height=300)
+tabela = pn.widgets.DataFrame(df, width=1200, height=600)
 
 listar_pacientes_button.on_click(listar_pacientes)
 cadastrar.on_click(cadastar_paciente)
@@ -216,63 +216,128 @@ cadastro_agente_Button.on_click(cadastar_agente)
 listar_agentes_button.on_click(listar_agentes)
 areas_associados_agente_button.on_click(buscar_areas_associados_a_agentes)
 
-painel = pn.Column(
-    pn.Row(
-        pn.Column(
-        "## Cadastro de Pacientes",
-        nome, cpf, telefone, rua, numero, bairro, cep, 
-        pn.Row(cadastrar),
-        ),
-        pn.Column(
-        "## Registro de novos Casos",
-        doencaCaso, data_diagnostico_caso, status, sintomas, cpf_paciente_Caso, id_agente_caso,
-        cadastrarCasoButton    
-        ),
-        pn.Column(
-        "## Buscar Paciente",
-        buscar,
-        buscarPacienteButton,
-        "## Casos associados ao paciente",
-        buscarCasosPaciente,
-        buscarCasosPacienteButton, 
-        ),
-        pn.Column(
-        "## Cadastro de Agentes",
-        nome_agente, cargo_agente,
-        cadastro_agente_Button,
-        # "## Cadastrar Doença",
-        # doenca,
-        # doencaButton,
-        ),
-        pn.Column(
-        "## Areas que o Agente atua",
-        areas_associados_agente_input,
-        areas_associados_agente_button,
-        ),
-        # pn.Column(
-        # "## Areas que o Agente atua",
-        # areas_associados_agente_input,
-        # areas_associados_agente_button,
-        # ),
-        # pn.Column(
-        # "## Deletar Paciente",
-        # deletar,
-        # deletarPacienteButton,
-        # ),
-    ),
-        container_mensagem,
+# painel = pn.Column(
+#     pn.Row(
+#         pn.Column(
+#         "## Cadastro de Pacientes",
+#         nome, cpf, telefone, rua, numero, bairro, cep, 
+#         pn.Row(cadastrar),
+#         ),
+#         pn.Column(
+#         "## Registro de novos Casos",
+#         doencaCaso, data_diagnostico_caso, status, sintomas, cpf_paciente_Caso, id_agente_caso,
+#         cadastrarCasoButton    
+#         ),
+#         pn.Column(
+#         "## Buscar Paciente",
+#         buscar,
+#         buscarPacienteButton,
+#         "## Casos associados ao paciente",
+#         buscarCasosPaciente,
+#         buscarCasosPacienteButton, 
+#         ),
+#         pn.Column(
+#         "## Cadastro de Agentes",
+#         nome_agente, cargo_agente,
+#         cadastro_agente_Button,
+#         # "## Cadastrar Doença",
+#         # doenca,
+#         # doencaButton,
+#         ),
+#         pn.Column(
+#         "## Areas que o Agente atua",
+#         areas_associados_agente_input,
+#         areas_associados_agente_button,
+#         ),
+#         # pn.Column(
+#         # "## Areas que o Agente atua",
+#         # areas_associados_agente_input,
+#         # areas_associados_agente_button,
+#         # ),
+#         # pn.Column(
+#         # "## Deletar Paciente",
+#         # deletar,
+#         # deletarPacienteButton,
+#         # ),
+#     ),
+#         container_mensagem,
     
-    pn.Column(
-        pn.Row(
-            listarDoençasButton,
-            listarCasosButton,
-            listarAreasButton,
-            listar_agentes_button,
-            listar_pacientes_button
-            ),
-        "## Tabela Resultados",
-        tabela,
+#     pn.Column(
+#         pn.Row(
+#             listarDoençasButton,
+#             listarCasosButton,
+#             listarAreasButton,
+#             listar_agentes_button,
+#             listar_pacientes_button
+#             ),
+#         "## Tabela Resultados",
+#         tabela,
       
         
+#     )
+# ).servable()
+
+painel = pn.Column(
+    pn.pane.Markdown("<h2 style='font-size: 24px;'>🩺 Sistema de Monitoramento de Saúde Pública</h2>"),
+    container_mensagem,
+    pn.Tabs(
+        ("Cadastro e Casos", pn.Row(
+            pn.Card(
+                "### Cadastro de Pacientes",
+                nome, cpf, telefone, rua, numero, bairro, cep,
+                cadastrar,
+                title="Paciente",
+                width=320, 
+                margin=10
+            ),
+            pn.Card(
+                "### Registro de novos Casos",
+                doencaCaso, data_diagnostico_caso, status, sintomas, cpf_paciente_Caso, id_agente_caso,
+                cadastrarCasoButton,
+                title="Caso Clínico",
+                width=320,
+                margin=10
+            ),
+            pn.Card(
+                "### Busca de Pacientes",
+                buscar, buscarPacienteButton,
+                "### Casos Associados",
+                buscarCasosPaciente, buscarCasosPacienteButton,
+                title="Busca",
+                width=320,
+                margin=10
+            ),
+        )),
+        ("Gestão de Agentes", pn.Row(
+            pn.Card(
+                "### Cadastro de Agente",
+                nome_agente, cargo_agente, cadastro_agente_Button,
+                title="Agente de Saúde",
+                width=320,
+                margin=10
+            ),
+            pn.Card(
+                "### Áreas que o Agente Atende",
+                areas_associados_agente_input,
+                areas_associados_agente_button,
+                title="Áreas de Atuação",
+                width=320,
+                margin=10
+            ),
+        )),
+        ("Listagens e Gerenciamento", pn.Column(
+            pn.Row(
+                listarDoençasButton,
+                listarCasosButton,
+                listarAreasButton,
+                listar_agentes_button,
+                listar_pacientes_button,
+                width=1200
+            ),
+            pn.pane.Markdown("<h2 style='font-size: 24px;'>Resultados 📋</h2>"),
+
+            tabela
+        )),
     )
 ).servable()
+
