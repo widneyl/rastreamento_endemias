@@ -3,6 +3,8 @@ import pandas as pd
 import sys
 import os
 from datetime import datetime
+import random
+
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../backend/')))
@@ -196,7 +198,39 @@ def listar_pacientes(event):
     pacientes = insercao.listar_pacientes()
     df = pd.DataFrame(pacientes)
     tabela.value = df
+
+
+def cadastrar_10_casos(event):
+    cpfs = [
+        "34812956490", "70965412833", "12057896305", "83190547266", "65874319027",
+        "97430865211", "26713089450", "39127408560", "84091234777", "50318642991"
+    ]
+    doencas = ["dengue", "zica", "chikungunia"]
+    sintomas_list = [
+        "febre alta e dor", "manchas na pele", "dor nas articulações",
+        "dor de cabeça forte", "náusea e vômito", "coceira intensa",
+        "fadiga e fraqueza", "dor muscular leve", "erupção cutânea", "dor no corpo"
+    ]
+
+    for i in range(10):
+        # Gera data aleatória em julho/2025
+        dia = random.randint(1, 31)
+        data_str = f"{dia:02d}072025"
+        data_formatada = datetime.strptime(data_str, '%d%m%Y').date()
+
+        insercao.registrar_caso(
+            doenca = random.choice(doencas),
+            data_diagnostico = data_formatada,
+            status = status.value,  # mantém o valor atual do campo status
+            sintomas = sintomas_list[i][:30],  # garante no máximo 30 caracteres
+            cpf_paciente = cpfs[i],
+            id_agente = (i % 10) + 1  # alterna entre 1 e 10
+        )
     
+    mensagem.object = "10 casos registrados com sucesso!"
+    mensagem.visible = True
+    limpar_foms()
+
 pacientes = insercao.listar_pacientes()
 df = pd.DataFrame(pacientes)
 tabela = pn.widgets.DataFrame(df, width=1200, height=600)

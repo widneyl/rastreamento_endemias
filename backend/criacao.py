@@ -26,7 +26,7 @@ class Casos(Base):
     cpf_paciente = Column(String(15), ForeignKey('paciente.cpf'))
     data_diagnostico = Column(Date) # Definição do atributo data_diagnostico
     status = Column(String(6)) # Definição do atributo status
-    doenca = Column(String(6)) # Definição do atributo doenca
+    doenca = Column(String(60)) # Definição do atributo doenca
     sintomas = Column(String(100))
     id_agente = Column(Integer)
 
